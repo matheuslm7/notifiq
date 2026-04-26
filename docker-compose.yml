@@ -1,0 +1,16 @@
+# //notifiq/docker-compose.yml
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "4000:6379"
+  
+  notifiq:
+    build: .
+    ports:
+      - "4025:8080"
+    environment:
+      - REDIS_ADDR=redis:6379
+    depends_on:
+      - redis
