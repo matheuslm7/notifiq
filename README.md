@@ -55,4 +55,4 @@ docker compose logs -f notifiq
 # Parar
 docker compose down
 
-Desenolvido por Matheus Lima.
+Desenvolvido por Matheus Lima.
