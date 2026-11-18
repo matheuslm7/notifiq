@@ -3,14 +3,58 @@
 services:
   redis:
     image: redis:7-alpine
-    ports:
-      - "4000:6379"
-  
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: notifiq
+      MYSQL_USER: notifiq
+      MYSQL_PASSWORD: notifiq
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "notifiq", "-pnotifiq"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
   notifiq:
     build: .
     ports:
       - "4025:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:8080/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
     environment:
       - REDIS_ADDR=redis:6379
+      - MYSQL_ADDR=mysql:3306
+      - MYSQL_DATABASE=notifiq
+      - MYSQL_USER=notifiq
+      - MYSQL_PASSWORD=notifiq
+      - PASSWORD_RESET_URL=http://localhost:3000/reset-password
+      - INVITE_URL=http://localhost:3000/invite
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+
+  web:
+    build: ./web
+    ports:
+      - "3000:80"
+    depends_on:
+      notifiq:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

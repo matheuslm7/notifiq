@@ -1,0 +1,34 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Go build and test artifacts
+/bin/
+/dist/
+*.test
+*.out
+coverage/
+coverage.out
+coverage.html
+
+# Frontend dependencies and build output
+web/node_modules/
+web/dist/
+web/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs and local runtime files
+*.log
+tmp/
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*.swo

@@ -1,0 +1,36 @@
+# Repository metadata and local tooling
+.git
+.github
+.idea
+.vscode
+.agents
+.codex
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.local
+
+# Build, test, and runtime artifacts
+bin/
+dist/
+coverage/
+*.test
+*.out
+*.log
+tmp/
+
+# Frontend artifacts are built in the web image
+web/node_modules/
+web/dist/
+web/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Documentation and local-only files are not needed by the API image
+README.md
+plan.md
+.DS_Store

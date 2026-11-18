@@ -22,6 +22,8 @@ WORKDIR /app
 
 # Copiar binário do builder
 COPY --from=builder /app/notifiq .
+# As migrations sao executadas automaticamente no boot da API.
+COPY --from=builder /app/db/migrations ./db/migrations
 
 # Porta exposta
 EXPOSE 8080
