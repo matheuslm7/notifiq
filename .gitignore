@@ -32,3 +32,4 @@ tmp/
 .DS_Store
 *.swp
 *.swo
+*.tsbuildinfo
